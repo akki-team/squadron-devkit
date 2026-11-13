@@ -26,12 +26,12 @@ Erreurs déjà faites, à ne pas refaire :
 
 ## Dans une extension
 
-- **Zones de Squadron** (items de `contributes.items`, réglages déclarés) : aucune liberté. L'extension donne un libellé `en` + `fr`, une icône du jeu de Squadron et une action ; Squadron dessine. Pas de CSS, pas de couleur.
+- **Zones de Squadron** (items de `contributes.items`, réglages déclarés) : aucune liberté. L'extension donne un libellé `en` + `fr`, une icône de la liste `icon` du guide et une action ; Squadron dessine. Pas de CSS, pas de couleur.
 - **Ses pages** (panneaux, page de réglages) : HTML/CSS/JS libres dans un iframe isolé, mais seules ces variables sont garanties par l'API : `--bg-main`, `--surface-1`, `--surface-2`, `--surface-3`, `--border`, `--border-focus`, `--text`, `--text-strong`, `--text-muted`, `--text-dim`, `--ink`, `--accent`, `--accent-link`, `--ok-text`, `--err-text`, `--sans`, `--mono`. Les autres tokens de l'app (`--wait-*`, `--option*`, `--surface-4`, `--menu`…) et ses classes n'y existent pas.
 - Partir de `<link rel="stylesheet" href="/_squadron/kit.css" />` (fond, texte, liens, titres, `button`, `button.primary`, champs, `.muted`) et ne styler que ce qui manque, avec les variables garanties.
 - Suivre quand même l'esprit des « Règles » de `DESIGN.md` de Squadron : cuivre (`--accent`) réservé à ce qui attend l'utilisateur, bouton principal clair, rayons 6/8/4px, contours en `inset box-shadow`. Lire `DESIGN.md` dans le clone local de Squadron (`../squadron/DESIGN.md`), sinon sur https://github.com/Jgrasp/squadron/blob/main/DESIGN.md.
 - Pas de réseau, de `localStorage`, de popup (`alert`, `confirm`) dans la page : l'état vit dans le WASM.
-- Une couleur propre à l'extension passe par `contributes.theme`, pas par du CSS en dur dans les zones de Squadron.
+- `contributes.theme` recolore les variables de Squadron lui-même : réservé à une extension de thème, jamais pour la couleur d'une extension.
 
 ## Maquettes
 
