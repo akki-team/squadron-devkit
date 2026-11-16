@@ -27,7 +27,7 @@ GitHub ne reçoit que les versions : jamais de `git push` de `main` local, dont 
 
 Quentin fusionne la PR : c'est ce qui lance la release. Ne la fusionner que sur sa demande explicite. Ensuite, `scripts/release.sh tag` pose le tag `v<version>` en local sur le commit fusionné et met à jour la branche `public` ; le lancement suivant du script le fait aussi pour la version précédente.
 
-Sur GitHub, le workflow Release se lance à chaque push sur `main` dont le message commence par « Squadron » : le job `test` (build, svelte-check, vitest, `cargo test`) passe d'abord, puis la release brouillon, les builds Linux, macOS et Windows, et la publication. S'il échoue, le commit `Squadron <version>` reste sur `main` sans release : corriger, puis publier le patch suivant.
+Sur GitHub, le job `test` du workflow Release (build, svelte-check, vitest, `cargo fmt --check`, clippy, `cargo test`) tourne sur la PR : ne fusionner qu'une PR au vert. La fusion relance `test`, puis la release brouillon, les builds Linux, macOS et Windows, et la publication. S'il échoue, le commit `Squadron <version>` reste sur `main` sans release : corriger, puis publier le patch suivant.
 
 ## Extension
 
