@@ -47,5 +47,6 @@ Charger le dossier dans Squadron : Settings › Extensions › Add an extension 
 
 1. Monter `version` dans `extension.json` (fonctionnalité → mineure, correctifs → patch).
 2. Ajouter la section `## <version> · <YYYY-MM-DD>` en tête de `CHANGELOG.md` et de `CHANGELOG.fr.md` : une ligne `- ` par changement visible par l'utilisateur, 20 lignes et 300 caractères au plus, pas de hash ni de refactor.
-3. Committer, pousser le repo de l'extension (sur demande de Quentin).
-4. Dans `squadron-extensions`, une PR qui ajoute ou met à jour l'entrée de `registry.json` : `repository`, `commit` (sha complet du commit poussé), `path`, `version` identique à `extension.json` à ce commit. Une PR par extension. Ne jamais toucher `index.json` : la CI l'écrit.
+3. Committer, puis pousser le repo et le tag `v<version>` (`<id>/v<version>` si l'extension est dans un sous-dossier), sur demande de Quentin. Une extension qui utilise une API plus récente déclare `"squadron": ">=<version de Squadron>"`.
+4. La CI de `squadron-extensions` (workflow Registry, toutes les heures, ou tout de suite avec `gh workflow run Registry --repo Jgrasp/squadron-extensions`) construit le tag le plus récent, vérifie l'id, la version et la section du changelog, publie l'archive et l'ajoute à `index.json`. Vérifier ensuite la version dans `index.json` ; un tag refusé est dans `rejected.json` avec sa raison.
+5. Nouvelle extension seulement : une PR dans `squadron-extensions` qui ajoute à `registry.json` `"<id>": { "repository": "https://github.com/…" }`, avec `"path"` si `extension.json` n'est pas à la racine. Aucune PR par version. Ne jamais toucher `index.json` : la CI l'écrit.

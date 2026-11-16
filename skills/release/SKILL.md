@@ -1,6 +1,6 @@
 ---
 name: release
-description: Publier une version de Squadron ou d'une extension Squadron — choisir le numéro, écrire les notes du changelog en anglais et en français, lancer le script de release ou la PR du registry. À charger quand Quentin demande une release, une nouvelle version ou une mise à jour du changelog.
+description: Publier une version de Squadron ou d'une extension Squadron — choisir le numéro, écrire les notes du changelog en anglais et en français, lancer le script de release ou pousser le tag d’une extension. À charger quand Quentin demande une release, une nouvelle version ou une mise à jour du changelog.
 ---
 
 # Release Squadron
