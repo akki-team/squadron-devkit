@@ -21,7 +21,7 @@ Notes are grouped by theme under `## ` (Conversation, Extensions, Updates…, as
 scripts/release.sh <version> "<en notes>" "fr=<fr notes>"
 ```
 
-The script works in a throwaway worktree `.worktrees/release-v<version>` of the project, from the latest `main` commit: other agents' uncommitted work does not block and does not ship. There it updates `Cargo.toml`, prepends to `CHANGELOG.md` and `CHANGELOG.fr.md`, commits `Squadron <version>`, pushes the snapshot to `release/v<version>` and opens the PR "Squadron <version>" to `main`, without merging it. It brings the commit back to local `main` and deletes the worktree. It refuses if `extensions/api` differs from `../squadron-extensions/api`.
+The script works in a throwaway worktree `.claude/worktrees/release-v<version>` of the project, from the latest `main` commit: other agents' uncommitted work does not block and does not ship. There it updates `Cargo.toml`, prepends to `CHANGELOG.md` and `CHANGELOG.fr.md`, commits `Squadron <version>`, pushes the snapshot to `release/v<version>` and opens the PR "Squadron <version>" to `main`, without merging it. It brings the commit back to local `main` and deletes the worktree. It refuses if `extensions/api` differs from `../squadron-extensions/api`.
 
 GitHub only receives versions: never `git push` local `main`, whose history differs. `main` on GitHub refuses force pushes and deletion, and only accepts a PR merged by rebase (a squash would add "(#N)" to the message and break the release).
 
