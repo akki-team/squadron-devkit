@@ -1,6 +1,6 @@
 {
   "name": "squadron-devkit",
-  "description": "Règles, design et skills communs aux repos Squadron et à ses extensions",
+  "description": "Rules, design and skills shared by the Squadron repos and its extensions",
   "author": {
     "name": "Quentin Briais"
   },

@@ -1,34 +1,34 @@
 ---
 name: release
-description: Publier une version de Squadron ou d'une extension Squadron — choisir le numéro, écrire les notes du changelog en anglais et en français, lancer le script de release ou pousser le tag d’une extension. À charger quand Quentin demande une release, une nouvelle version ou une mise à jour du changelog.
+description: Publish a version of Squadron or of a Squadron extension — pick the number, write the changelog notes in English and French, run the release script or push an extension's tag. Load when Quentin asks for a release, a new version or a changelog update.
 ---
 
-# Release Squadron
+# Squadron release
 
-## Numéro
+## Number
 
-Lire les commits depuis la dernière version locale (`git log --oneline $(git log -1 --format=%h --grep='^Squadron [0-9]')..HEAD`) : les tags `v<version>` sont sur l'historique public, pas sur `main` local. Une fonctionnalité → mineure suivante (0.46.2 → 0.47.0), des correctifs seuls → patch (0.46.2 → 0.46.3).
+Read the commits since the last local version (`git log --oneline $(git log -1 --format=%h --grep='^Squadron [0-9]')..HEAD`): the `v<version>` tags are on the public history, not on local `main`. A feature → next minor (0.46.2 → 0.47.0), fixes alone → patch (0.46.2 → 0.46.3).
 
 ## Notes
 
-Écrites pour l'utilisateur : ce qu'il peut faire maintenant, ou ce qui marche autrement. Pas de hash, pas de refactor, rien qu'il ne voit pas. Une ligne `- ` par changement. Version anglaise et version française avec les mêmes entrées (vouvoiement, typographie française).
+Written for the user: what they can do now, or what works differently. No hash, no refactor, nothing they do not see. One `- ` line per change. English and French versions with the same entries (French uses « vous » and French typography).
 
-## App Squadron
+## Squadron app
 
-Les notes sont groupées par thème en `## ` (Conversation, Extensions, Updates…, comme dans `CHANGELOG.md`). Le script les descend en `### `.
+Notes are grouped by theme under `## ` (Conversation, Extensions, Updates…, as in `CHANGELOG.md`). The script turns them into `### `.
 
 ```bash
-scripts/release.sh <version> "<notes en>" "fr=<notes fr>"
+scripts/release.sh <version> "<en notes>" "fr=<fr notes>"
 ```
 
-Le script travaille dans un worktree jetable `.worktrees/release-v<version>` du projet, à partir du dernier commit de `main` : le travail non commité d'autres agents ne bloque pas et ne part pas. Il y met à jour `Cargo.toml`, préfixe `CHANGELOG.md` et `CHANGELOG.fr.md`, committe `Squadron <version>`, pousse l'instantané sur `release/v<version>` et ouvre la PR « Squadron <version> » vers `main`, sans la fusionner. Il ramène le commit sur `main` local et supprime le worktree. Il refuse si `extensions/api` diffère de `../squadron-extensions/api`.
+The script works in a throwaway worktree `.worktrees/release-v<version>` of the project, from the latest `main` commit: other agents' uncommitted work does not block and does not ship. There it updates `Cargo.toml`, prepends to `CHANGELOG.md` and `CHANGELOG.fr.md`, commits `Squadron <version>`, pushes the snapshot to `release/v<version>` and opens the PR "Squadron <version>" to `main`, without merging it. It brings the commit back to local `main` and deletes the worktree. It refuses if `extensions/api` differs from `../squadron-extensions/api`.
 
-GitHub ne reçoit que les versions : jamais de `git push` de `main` local, dont l'historique diffère. `main` sur GitHub refuse le push forcé et la suppression, et n'accepte qu'une PR fusionnée en rebase (un squash ajouterait « (#N) » au message et casserait la release).
+GitHub only receives versions: never `git push` local `main`, whose history differs. `main` on GitHub refuses force pushes and deletion, and only accepts a PR merged by rebase (a squash would add "(#N)" to the message and break the release).
 
-Quentin fusionne la PR : c'est ce qui lance la release. Ne la fusionner que sur sa demande explicite. Ensuite, `scripts/release.sh tag` pose le tag `v<version>` en local sur le commit fusionné et met à jour la branche `public` ; le lancement suivant du script le fait aussi pour la version précédente.
+Quentin merges the PR: that is what starts the release. Merge it only on Quentin's explicit request. Then `scripts/release.sh tag` sets the `v<version>` tag locally on the merged commit and updates the `public` branch; the next run of the script also does it for the previous version.
 
-Sur GitHub, le job `test` du workflow Release (build, svelte-check, vitest, `cargo fmt --check`, clippy, `cargo test`) tourne sur la PR : ne fusionner qu'une PR au vert. La fusion relance `test`, puis la release brouillon, les builds Linux, macOS et Windows, et la publication. S'il échoue, le commit `Squadron <version>` reste sur `main` sans release : corriger, puis publier le patch suivant.
+On GitHub, the `test` job of the Release workflow (build, svelte-check, vitest, `cargo fmt --check`, clippy, `cargo test`) runs on the PR: merge only a green PR. The merge runs `test` again, then the draft release, the Linux, macOS and Windows builds, and publishing. If it fails, the `Squadron <version>` commit stays on `main` without a release: fix, then publish the next patch.
 
 ## Extension
 
-Voir le skill `squadron-devkit:extension`, partie « Publier ».
+See the `squadron-devkit:extension` skill, "Publishing" part.

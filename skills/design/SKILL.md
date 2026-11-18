@@ -1,43 +1,43 @@
 ---
 name: design
-description: Directives de design de Squadron, pour l'app et pour les panneaux et réglages des extensions. À charger avant toute maquette, artifact, bloc html, page de panneau d'extension ou retouche de style dans un repo Squadron.
+description: Squadron design guidelines, for the app and for extension panels and settings. Load before any mockup, artifact, html block, extension panel page or style change in a Squadron repo.
 ---
 
-# Design Squadron
+# Squadron design
 
-Le design a deux contrats. Repérer d'abord lequel s'applique :
+Design has two contracts. First find out which one applies:
 
-- `src/app.css` et `DESIGN.md` à la racine : **l'app Squadron**.
-- `extension.json` à la racine : **une extension**.
+- `src/app.css` and `DESIGN.md` at the root: **the Squadron app**.
+- `extension.json` at the root: **an extension**.
 
-## Dans l'app
+## In the app
 
-1. Lire `DESIGN.md` en entier, au moins « Règles », « Maquettes et artifacts » et la section du composant touché, puis le `:root` de `src/app.css`. `app.css` fait foi pour les valeurs, `DESIGN.md` dit à quoi elles servent.
-2. Partir du CSS du composant existant le plus proche (fichier cité dans « Composants »). Réutiliser `StatusIcon`, `ModeIcon`, `Icon`, `Avatar`, `SidePanel`, `Dialog`, `Confirm`, `Select` et les classes `.btn*`, `.field`, `.option-*`, `.effect-*` sans les redéfinir.
-3. Un token, une couleur en dur, une taille ou un composant visible ajouté ou changé : `DESIGN.md` est mis à jour dans le même commit. `scripts/design.test.ts` échoue sinon.
+1. Read `DESIGN.md` in full, at least « Règles », « Maquettes et artifacts » and the section of the component being touched, then the `:root` of `src/app.css`. `app.css` is authoritative for values, `DESIGN.md` says what they are for.
+2. Start from the CSS of the closest existing component (file cited in « Composants »). Reuse `StatusIcon`, `ModeIcon`, `Icon`, `Avatar`, `SidePanel`, `Dialog`, `Confirm`, `Select` and the `.btn*`, `.field`, `.option-*`, `.effect-*` classes without redefining them.
+3. A token, hard-coded color, size or visible component added or changed: `DESIGN.md` is updated in the same commit. `scripts/design.test.ts` fails otherwise.
 
-Erreurs déjà faites, à ne pas refaire :
+Mistakes already made, not to repeat:
 
-- Rayon 8px sur une carte : c'est 6px. 8px = dialogues et cartes de conversation à barre de ton, 4px = boutons et champs.
-- `--background` pris pour un fond : c'est le bleu des tâches de fond. L'encre sur cuivre est `--accent-ink`.
-- Cuivre sur une action ordinaire : le cuivre signale ce qui attend l'utilisateur. Le bouton principal est clair (`.btn-primary`, `--text` sur `--ink`, 700).
-- Anneau de statut redessiné à la main au lieu de `StatusIcon`.
-- Contour en `border` : c'est `box-shadow: inset 0 0 0 1px …`, sauf séparateurs de zones.
+- 8px radius on a card: it is 6px. 8px = dialogs and conversation cards with a tone bar, 4px = buttons and fields.
+- `--background` taken for a background: it is the blue of background tasks. Ink on copper is `--accent-ink`.
+- Copper on an ordinary action: copper signals what is waiting for the user. The main button is light (`.btn-primary`, `--text` on `--ink`, 700).
+- Status ring redrawn by hand instead of `StatusIcon`.
+- Outline as a `border`: it is `box-shadow: inset 0 0 0 1px …`, except zone separators.
 
-## Dans une extension
+## In an extension
 
-- **Zones de Squadron** (items de `contributes.items`, réglages déclarés) : aucune liberté. L'extension donne un libellé `en` + `fr`, une icône de la liste `icon` du guide et une action ; Squadron dessine. Pas de CSS, pas de couleur.
-- **Ses pages** (panneaux, page de réglages) : HTML/CSS/JS libres dans un iframe isolé, mais seules ces variables sont garanties par l'API : `--bg-main`, `--surface-1`, `--surface-2`, `--surface-3`, `--border`, `--border-focus`, `--text`, `--text-strong`, `--text-muted`, `--text-dim`, `--ink`, `--accent`, `--accent-link`, `--ok-text`, `--err-text`, `--sans`, `--mono`. Les autres tokens de l'app (`--wait-*`, `--option*`, `--surface-4`, `--menu`…) et ses classes n'y existent pas.
-- Partir de `<link rel="stylesheet" href="/_squadron/kit.css" />` (fond, texte, liens, titres, `button`, `button.primary`, champs, `.muted`) et ne styler que ce qui manque, avec les variables garanties.
-- Suivre quand même l'esprit des « Règles » de `DESIGN.md` de Squadron : cuivre (`--accent`) réservé à ce qui attend l'utilisateur, bouton principal clair, rayons 6/8/4px, contours en `inset box-shadow`. Lire `DESIGN.md` dans le clone local de Squadron (`../squadron/DESIGN.md`), sinon sur https://github.com/Jgrasp/squadron/blob/main/DESIGN.md.
-- Pas de réseau, de `localStorage`, de popup (`alert`, `confirm`) dans la page : l'état vit dans le WASM.
-- `contributes.theme` recolore les variables de Squadron lui-même : réservé à une extension de thème, jamais pour la couleur d'une extension.
+- **Squadron zones** (items of `contributes.items`, declared settings): no freedom. The extension gives an `en` + `fr` label, an icon from the guide's `icon` list and an action; Squadron draws. No CSS, no color.
+- **Its pages** (panels, settings page): free HTML/CSS/JS in an isolated iframe, but only these variables are guaranteed by the API: `--bg-main`, `--surface-1`, `--surface-2`, `--surface-3`, `--border`, `--border-focus`, `--text`, `--text-strong`, `--text-muted`, `--text-dim`, `--ink`, `--accent`, `--accent-link`, `--ok-text`, `--err-text`, `--sans`, `--mono`. The app's other tokens (`--wait-*`, `--option*`, `--surface-4`, `--menu`…) and its classes do not exist there.
+- Start from `<link rel="stylesheet" href="/_squadron/kit.css" />` (background, text, links, headings, `button`, `button.primary`, fields, `.muted`) and style only what is missing, with the guaranteed variables.
+- Still follow the spirit of the « Règles » of Squadron's `DESIGN.md`: copper (`--accent`) reserved for what is waiting for the user, light main button, 6/8/4px radii, outlines as `inset box-shadow`. Read `DESIGN.md` in the local Squadron clone (`../squadron/DESIGN.md`), otherwise at https://github.com/Jgrasp/squadron/blob/main/DESIGN.md.
+- No network, `localStorage` or popup (`alert`, `confirm`) in the page: state lives in the WASM.
+- `contributes.theme` recolors Squadron's own variables: reserved for a theme extension, never for an extension's color.
 
-## Maquettes
+## Mockups
 
-- **Bloc ```html dans la conversation** : reçoit les tokens et les polices de l'app, pas ses classes ; pas de réseau ni de script. Recopier les règles des classes depuis `app.css`.
-- **Artifact** (`$SQUADRON_ARTIFACTS`) : `<link rel="stylesheet" href="/__squadron/theme.css">` donne tout `app.css`. Ne pas recopier les tokens. Pour un panneau d'extension, n'utiliser que les variables garanties ci-dessus.
-- À la taille réelle (conversation à 740px, largeurs de « Disposition » dans `DESIGN.md`).
-- Plusieurs variantes côte à côte sur la même page, chacune titrée, mêmes données.
-- Textes de la maquette en anglais.
-- Montrer, attendre le choix, refaire. Ne rien intégrer ni committer avant un ordre explicite.
+- **```html block in the conversation**: gets the app's tokens and fonts, not its classes; no network or script. Copy the class rules from `app.css`.
+- **Artifact** (`$SQUADRON_ARTIFACTS`): `<link rel="stylesheet" href="/__squadron/theme.css">` gives all of `app.css`. Do not copy the tokens. For an extension panel, use only the guaranteed variables above.
+- At real size (conversation at 740px, widths from « Disposition » in `DESIGN.md`).
+- Several variants side by side on the same page, each titled, same data.
+- Mockup text in English.
+- Show, wait for the choice, redo. Integrate or commit nothing before an explicit order.

@@ -1,15 +1,16 @@
-# Règles Squadron (plugin squadron-devkit)
+# Squadron rules (squadron-devkit plugin)
 
-Ce repo fait partie de Squadron (l'app ou une de ses extensions). Ces règles valent pour toute la session.
+This repo is part of Squadron (the app or one of its extensions). These rules apply for the whole session.
 
-- Langues : réponses à Quentin en français. Code, identifiants, prompts envoyés à Claude, messages de commit et `CHANGELOG.md` en anglais.
-- Interface traduisible : toute chaîne visible a sa version `en` et sa version `fr` (vouvoiement, « » avec U+202F à l'intérieur, U+00A0 avant `:`). Dans l'app : clés `src/lib/i18n/en` + `fr`. Dans une extension : `{ "en": …, "fr": … }` dans `extension.json`, et `CHANGELOG.fr.md` à côté de `CHANGELOG.md`.
-- Pas de commentaires dans le code, sauf un piège non déductible du code, en une ligne.
-- Design : avant toute maquette, artifact, bloc ```html ou retouche de style, charger le skill `squadron-devkit:design`.
-- Maquettes : pendant un aller-retour de design, ne rien committer et ne rien intégrer. « On part sur B » = refaire la maquette B ; coder seulement sur ordre explicite (« intègre », « fais-le »).
-- Commits : une tâche finie et vérifiée (tests, rendu) est committée sans attendre. Message d'une ligne en anglais qui décrit le résultat pour l'utilisateur. Jamais de `Co-Authored-By` ni de mention « Generated with ». Ne jamais pousser sans demande.
-- Versions : une nouvelle fonctionnalité monte la mineure, des correctifs seuls montent le patch. Pour publier, charger le skill `squadron-devkit:release`.
-- Extension : pour créer ou modifier une extension, charger le skill `squadron-devkit:extension`.
-- Secrets : ne jamais lire ni demander un mot de passe, un jeton ou une clé. Valeurs à écrire dans un fichier : `ask_values`. Root : `run_sudo`. Passphrase SSH : `add_ssh_key`. Ne jamais créer de chemin qui rend un secret à un processus de l'agent (env, argv, stdout, fichier lisible).
-- Commandes longues : les borner avec `timeout N` ; toute tâche passée en arrière-plan est arrêtée par TaskStop avant de rendre la main.
-- Worktree créé à la main : `set_worktree` juste après, retiré une fois fusionné.
+- Languages: replies to Quentin in French. Code, identifiers, prompts sent to Claude, commit messages and `CHANGELOG.md` in English.
+- Translatable interface: every visible string has an `en` and an `fr` version (French uses « vous », « » with U+202F inside, U+00A0 before `:`). In the app: keys in `src/lib/i18n/en` + `fr`. In an extension: `{ "en": …, "fr": … }` in `extension.json`, and `CHANGELOG.fr.md` next to `CHANGELOG.md`.
+- No comments in code, except a trap that cannot be deduced from the code, in one line.
+- Design: before any mockup, artifact, ```html block or style change, load the `squadron-devkit:design` skill.
+- Mockups: during a design back-and-forth, commit nothing and integrate nothing. "Let's go with B" = redo mockup B; write code only on an explicit order ("integrate it", "do it").
+- Branches: always work on a branch, in a worktree under `.claude/worktrees/<branch>` of the project (add `.claude/worktrees/` to `.gitignore` if missing), never on `main`. Call `set_worktree` right after creating it; remove the worktree once merged.
+- Commits: a finished and verified task (tests, rendering) is committed on its branch without waiting. One-line English message describing the result for the user. Never `Co-Authored-By` nor any "Generated with" mention. Pushing the branch is allowed.
+- Scope: an agent changes and commits only its own project's repo. If the task also touches another repo (the app, `squadron-extensions`, another extension), propose to Quentin an agent on that project with `start_agent` and a ready brief, then wait for Quentin's approval. Each agent follows its repo's process and delivers through a PR, never a direct commit on `main`.
+- Versions: a new feature bumps the minor, fixes alone bump the patch. To publish, load the `squadron-devkit:release` skill.
+- Extension: to create or change an extension, load the `squadron-devkit:extension` skill.
+- Secrets: never read or ask for a password, token or key. Values to write into a file: `ask_values`. Root: `run_sudo`. SSH passphrase: `add_ssh_key`. Never create a path that hands a secret to an agent process (env, argv, stdout, readable file).
+- Long commands: bound them with `timeout N`; any task sent to the background is stopped with TaskStop before handing back.
