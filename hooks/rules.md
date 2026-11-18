@@ -8,6 +8,7 @@ Ce repo fait partie de Squadron (l'app ou une de ses extensions). Ces règles va
 - Design : avant toute maquette, artifact, bloc ```html ou retouche de style, charger le skill `squadron-devkit:design`.
 - Maquettes : pendant un aller-retour de design, ne rien committer et ne rien intégrer. « On part sur B » = refaire la maquette B ; coder seulement sur ordre explicite (« intègre », « fais-le »).
 - Commits : une tâche finie et vérifiée (tests, rendu) est committée sans attendre. Message d'une ligne en anglais qui décrit le résultat pour l'utilisateur. Jamais de `Co-Authored-By` ni de mention « Generated with ». Ne jamais pousser sans demande.
+- Périmètre : un agent ne modifie et ne commite que le repo de son projet. Si la tâche touche aussi un autre repo (l'app, `squadron-extensions`, une autre extension), proposer à Quentin un agent sur ce projet avec `start_agent` et un brief prêt, puis attendre son accord. Chaque agent suit le process de son repo et livre par une PR, jamais par un commit direct sur `main`.
 - Versions : une nouvelle fonctionnalité monte la mineure, des correctifs seuls montent le patch. Pour publier, charger le skill `squadron-devkit:release`.
 - Extension : pour créer ou modifier une extension, charger le skill `squadron-devkit:extension`.
 - Secrets : ne jamais lire ni demander un mot de passe, un jeton ou une clé. Valeurs à écrire dans un fichier : `ask_values`. Root : `run_sudo`. Passphrase SSH : `add_ssh_key`. Ne jamais créer de chemin qui rend un secret à un processus de l'agent (env, argv, stdout, fichier lisible).
