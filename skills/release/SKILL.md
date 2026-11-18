@@ -29,6 +29,8 @@ Quentin merges the PR: that is what starts the release. Merge it only on Quentin
 
 On GitHub, the `test` job of the Release workflow (build, svelte-check, vitest, `cargo fmt --check`, clippy, `cargo test`) runs on the PR: merge only a green PR. The merge runs `test` again, then the draft release, the Linux, macOS and Windows builds, and publishing. If it fails, the `Squadron <version>` commit stays on `main` without a release: fix, then publish the next patch.
 
+Right after the PR opens, and again right after the merge, run `scripts/release.sh watch <version>` in the background. It follows the Release run of that version job by job and exits as soon as something needs Quentin: 0 when the run succeeds, 1 when a job fails or is cancelled, 2 when a job has waited more than 5 min for a runner (`QUEUE_MAX`, seconds) or run more than 15 min (`RUN_MAX`). Tell Quentin at once on 1 or 2, with the job and the run link; never wait for him to notice.
+
 ## Extension
 
 See the `squadron-devkit:extension` skill, "Publishing" part.
