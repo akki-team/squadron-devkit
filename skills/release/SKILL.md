@@ -25,9 +25,18 @@ The script refuses a version whose `v<version>` tag already exists, and refuses 
 
 Every change reaches `main` through a PR whose required checks are `test` (build, svelte-check, vitest, `cargo fmt --check`, clippy, `cargo test`) and `secrets` (gitleaks): merge only a green PR. The only merge method is a merge commit. A push on `main` runs `test` and `build` and publishes nothing.
 
-Quentin merges the PR. Merge it only on Quentin's explicit request. Then `scripts/release.sh tag <version>` tags the merge commit and pushes `v<version>`: that tag push starts the Release workflow (`test`, draft release, Linux, macOS and Windows builds, publishing). Only the admin can create `v*` tags. If the run fails, the `Squadron <version>` commit stays on `main` without a release: fix, then publish the next patch.
+Quentin merges the PR. Merge it only on Quentin's explicit request. The merge starts the Tag workflow: it checks that the merged `Cargo.toml` is `<version>` and creates the `v<version>` tag on the merge commit with the `RELEASE_TAG_TOKEN` secret, and that tag starts the Release workflow (`test`, draft release, Linux, macOS and Windows builds, publishing). Only the admin can create `v*` tags. If the Release run fails, the `Squadron <version>` commit stays on `main` without a release: fix, then publish the next patch.
 
-Right after pushing the tag, run `scripts/release.sh watch <version>` in the background. It follows the Release run of the `v<version>` tag job by job and exits as soon as something needs Quentin: 0 when the run succeeds, 1 when a job fails or is cancelled, 2 when a job has waited more than 5 min for a runner (`QUEUE_MAX`, seconds) or run more than 15 min (`RUN_MAX`). Tell Quentin at once on 1 or 2, with the job and the run link; never wait for him to notice.
+After the merge, wait for the Tag run, then check the tag:
+
+```bash
+gh run watch --exit-status $(gh run list --workflow Tag --branch release/v<version> --limit 1 --json databaseId --jq '.[0].databaseId')
+git ls-remote --exit-code --tags origin refs/tags/v<version>
+```
+
+Only if the Tag run failed or the tag is missing, run `scripts/release.sh tag <version>`: it tags the merge commit and pushes `v<version>`.
+
+Once the tag exists, run `scripts/release.sh watch <version>` in the background. It follows the Release run of the `v<version>` tag job by job and exits as soon as something needs Quentin: 0 when the run succeeds, 1 when a job fails or is cancelled, 2 when a job has waited more than 5 min for a runner (`QUEUE_MAX`, seconds) or run more than 15 min (`RUN_MAX`). Tell Quentin at once on 1 or 2, with the job and the run link; never wait for him to notice.
 
 ## Extension
 
