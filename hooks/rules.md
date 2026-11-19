@@ -15,3 +15,4 @@ This repo is part of Squadron (the app or one of its extensions). These rules ap
 - Extension: to create or change an extension, load the `squadron-devkit:extension` skill.
 - Secrets: never read or ask for a password, token or key. Values to write into a file: `ask_values`. Root: `run_sudo`. SSH passphrase: `add_ssh_key`. Never create a path that hands a secret to an agent process (env, argv, stdout, readable file).
 - Long commands: bound them with `timeout N`; any task sent to the background is stopped with TaskStop before handing back.
+- Dev app: launch `pnpm app` in a background task, then wait for its process, never for a log line: `until pgrep -f 'target/debug/[s]quadron' >/dev/null || grep -q ELIFECYCLE <log>; do sleep 1; done`, bounded with `timeout`. Tell Quentin it is up as soon as the process appears.
