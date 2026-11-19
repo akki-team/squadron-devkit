@@ -31,6 +31,7 @@ New extension: copy `examples/hello` from `squadron-extensions`, replace the `pa
 - Every visible label (`name`, `description`, `label`, `title`, `hint`, `choices`) has `en` and `fr`.
 - `permissions` kept to the minimum: each `exec` program and each `network` host is justified in the README ("What it asks Squadron for"). Any addition asks the user's approval again.
 - Secrets never go through the WASM or the page: `{{id}}` or `{{account.field}}` in a `host::fetch` header.
+- Values the user must copy, such as the scopes of a token, go in `fields[].copy` of `contributes.accounts` (shown as copy buttons under the hint), not in `hint`; they are plain strings, exempt from the en/fr rule.
 - A panel page follows the `squadron-devkit:design` skill, "In an extension" part.
 - The page speaks first (`squadron.send({ type: 'ready' })`), the WASM answers in `on_event`.
 - `api` in the manifest: the API version you build against. An API newer than the installed Squadron does not load.
