@@ -13,6 +13,7 @@ description: Launch Squadron's dev app (`pnpm app`) from a checkout or worktree,
 - Identifier `dev.squadron.desktop.dev.<name>`: its own config, WebView data and single-instance lock. Its data lives in `~/.config/dev.squadron.desktop.dev.<name>`, seeded on first run from the installed Squadron (projects, settings, groups, layout), so a worktree's instance starts from the release's projects and settings.
 - Vite: the first free port from 5173, its own cache `node_modules/.vite-<name>`.
 - The name shows in the window title "Squadron dev · <name>" and in the header badge "dev · <name>". The first log line says `Squadron dev "<name>": <identifier> on http://localhost:<port>`.
+- When its worktree is removed after the merge, and once the wait command's `grep` fails (no process of the instance left), delete `~/.config/dev.squadron.desktop.dev.<name>`, `~/.local/share/dev.squadron.desktop.dev.<name>` and `$XDG_RUNTIME_DIR/squadron-dev-<name>`.
 - A checkout still on the old script uses plain `dev.squadron.desktop.dev` and does not collide with the new ones.
 
 ## Launch
