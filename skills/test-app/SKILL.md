@@ -36,7 +36,7 @@ return document.querySelector('[role=dialog]')?.textContent
 EOF
 ```
 
-- The script runs in the main window as the body of an async function: `return` and `await` work.
+- The script runs in the main window as the body of an async function: `return` and `await` work. It never runs in another window: open the board window from `main` (Kanban, then `Pop out`) and check it with `shot`.
 - It prints the return value as JSON, or `error <message>` and exits 1. Return text, numbers or arrays of them: a DOM node comes back as `{}`, `undefined` as `null`.
 - Clicks are plain DOM calls (`button.click()`); find buttons by their text or `aria-label`.
 - Synthetic pointer events (drag, resize): `new PointerEvent(type, { bubbles: true, pointerId: 1, clientX, clientY, buttons: 1 })`, all dispatched on the element that listens (the handle), since nothing is really captured. `pointerId: 1` is WebKit's mouse; any other id makes `setPointerCapture` throw `NotFoundError`.
