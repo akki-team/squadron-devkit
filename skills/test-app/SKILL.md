@@ -57,5 +57,4 @@ TaskStop the background task, then check that the same `grep` now fails: a lefto
 ## Pitfalls
 
 - The dev app sees Quentin's real projects: never change their data during a test. No real messages to agents, no card moves on real projects.
-- A `run` after an answer holding non-ASCII text (`·`, `×`, accents) fails with `SyntaxError … is not valid JSON` until `drive.mjs` reads `answers` by bytes: `rm -f $XDG_RUNTIME_DIR/squadron-dev-<instance>/answers` before each `run`.
 - `xvfb-run: spawn xvfb-run ENOENT`: Xvfb is missing. Ask Quentin before installing it with `run_sudo` (`apt install xvfb`).
