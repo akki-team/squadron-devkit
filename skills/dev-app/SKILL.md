@@ -27,16 +27,10 @@ In a new worktree, `CARGO_TARGET_DIR=<main checkout>/src-tauri/target pnpm app` 
 
 ## Wait
 
-Wait for its own process, never for a log line and never for any `target/debug/squadron`: other instances may run. `<target dir>` is `<checkout>/src-tauri/target`, or the `CARGO_TARGET_DIR` you set.
+Wait for its own process, never for a log line and never for any `target/debug/squadron`: other instances may run. Cargo starts it as the relative `target/debug/squadron`, so match its instance in its environment, not a path:
 
 ```bash
-timeout 900 sh -c "until pgrep -f '<target dir>/debug/[s]quadron' >/dev/null || grep -q ELIFECYCLE <log>; do sleep 2; done"
-```
-
-With a shared `CARGO_TARGET_DIR` while another instance runs from it, the path is not enough: match its instance in the environment.
-
-```bash
-timeout 900 sh -c "until grep -qsxz 'SQUADRON_INSTANCE=<name>' \$(pgrep -f '<target dir>/debug/[s]quadron' | sed 's|.*|/proc/&/environ|') /dev/null || grep -q ELIFECYCLE <log>; do sleep 2; done"
+timeout 900 sh -c "until grep -qsxz 'SQUADRON_INSTANCE=<name>' \$(pgrep -f 'target/debug/[s]quadron' | sed 's|.*|/proc/&/environ|') /dev/null || grep -q ELIFECYCLE <log>; do sleep 2; done"
 ```
 
 `ELIFECYCLE` in the log: the launch failed, read the log.
