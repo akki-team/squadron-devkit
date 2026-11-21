@@ -18,7 +18,7 @@ timeout 3600 pnpm app --headless > /tmp/squadron-<instance>.log 2>&1
 `<instance>` is the worktree name. The app runs under Xvfb, with its own port, identifier `dev.squadron.desktop.dev.<instance>` and data. The first build takes a few minutes. Wait for that worktree's own process, as in the `squadron-devkit:dev-app` skill:
 
 ```bash
-timeout 900 sh -c "until pgrep -f '<worktree>/src-tauri/target/debug/[s]quadron' >/dev/null || grep -q ELIFECYCLE /tmp/squadron-<instance>.log; do sleep 2; done"
+timeout 900 sh -c "until grep -qsxz 'SQUADRON_INSTANCE=<instance>' \$(pgrep -f 'target/debug/[s]quadron' | sed 's|.*|/proc/&/environ|') /dev/null || grep -q ELIFECYCLE /tmp/squadron-<instance>.log; do sleep 2; done"
 ```
 
 `ELIFECYCLE`: the launch failed, read the log.
@@ -52,9 +52,10 @@ Writes a PNG of the visible part of each open window (`main.png`, `board.png`…
 
 ## Stop
 
-TaskStop the background task, then check that the same `pgrep` comes back empty: a leftover process holds the instance's lock and blocks the next launch.
+TaskStop the background task, then check that the same `grep` now fails: a leftover process holds the instance's lock and blocks the next launch.
 
 ## Pitfalls
 
 - The dev app sees Quentin's real projects: never change their data during a test. No real messages to agents, no card moves on real projects.
+- A `run` after an answer holding non-ASCII text (`·`, `×`, accents) fails with `SyntaxError … is not valid JSON` until `drive.mjs` reads `answers` by bytes: `rm -f $XDG_RUNTIME_DIR/squadron-dev-<instance>/answers` before each `run`.
 - `xvfb-run: spawn xvfb-run ENOENT`: Xvfb is missing. Ask Quentin before installing it with `run_sudo` (`apt install xvfb`).
