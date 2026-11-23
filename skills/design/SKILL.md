@@ -37,8 +37,10 @@ Mistakes already made, not to repeat:
 
 - **```html block in the conversation**: gets the app's tokens and fonts, not its classes; no network or script. Copy the class rules from `app.css`.
 - **Artifact** (`$SQUADRON_ARTIFACTS`): `<link rel="stylesheet" href="/__squadron/theme.css">` gives all of `app.css`. Do not copy the tokens. For an extension panel, use only the guaranteed variables above.
+- Pitfall: app CSS loaded after `/__squadron/theme.css` (a copy of `app.css` rules, a dump of the dev app's stylesheets) brings back `html, body { height: 100%; overflow: hidden }` and the page no longer scrolls. Load nothing of the app after theme.css, or end with `html, body { height: auto !important; overflow: auto !important }`.
 - At real size (conversation at 740px, widths from « Disposition » in `DESIGN.md`).
 - Variants stacked one under the other on the same page, the current state first, each titled, same data, each at real width.
 - Interactive: the controls of the mockup work (segments, switches, menus, fields, buttons that move or reveal things) with a small inline script in the artifact, so Quentin can try each variant. Html blocks in the conversation have no script: use an artifact as soon as a mockup needs interaction.
+- Pitfall: interactive means every control in every variant, the current state included. Never disable clicks (`pointer-events: none`) on part of the mockup. Before showing it, scroll to the bottom and click one control per variant.
 - Mockup text in English.
 - Show, wait for the choice, redo. Integrate or commit nothing before an explicit order.
