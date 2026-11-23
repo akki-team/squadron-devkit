@@ -38,6 +38,7 @@ Mistakes already made, not to repeat:
 - **```html block in the conversation**: gets the app's tokens and fonts, not its classes; no network or script. Copy the class rules from `app.css`.
 - **Artifact** (`$SQUADRON_ARTIFACTS`): `<link rel="stylesheet" href="/__squadron/theme.css">` gives all of `app.css`. Do not copy the tokens. For an extension panel, use only the guaranteed variables above.
 - At real size (conversation at 740px, widths from « Disposition » in `DESIGN.md`).
-- Several variants side by side on the same page, each titled, same data.
+- Variants stacked one under the other on the same page, the current state first, each titled, same data, each at real width.
+- Interactive: the controls of the mockup work (segments, switches, menus, fields, buttons that move or reveal things) with a small inline script in the artifact, so Quentin can try each variant. Html blocks in the conversation have no script: use an artifact as soon as a mockup needs interaction.
 - Mockup text in English.
 - Show, wait for the choice, redo. Integrate or commit nothing before an explicit order.
