@@ -22,6 +22,7 @@ CHANGELOG.md          English
 CHANGELOG.fr.md       same sections, in French
 README.md             English: what it is for, how to use it, "What it asks Squadron for"
 LICENSE
+.github/workflows/release.yml  copy of examples/release-caller.yml
 ```
 
 New extension: copy `examples/hello` from `squadron-extensions`, replace the `path` dependency with `squadron_extension_api = { git = "https://github.com/Jgrasp/squadron-extensions" }`.
@@ -59,5 +60,6 @@ Load the folder in Squadron: Settings › Extensions › Add an extension › A 
 1. Bump `version` in `extension.json` (feature → minor, fixes → patch).
 2. Add the `## <version> · <YYYY-MM-DD>` section at the top of `CHANGELOG.md` and `CHANGELOG.fr.md`: one `- ` line per user-visible change, at most 20 lines and 300 characters, no hash or refactor.
 3. Deliver it through a PR. Once it is merged, on Quentin's request, push the tag `v<version>` (`<id>/v<version>` if the extension is in a subfolder) on the merged commit.
-4. The `squadron-extensions` CI (Registry workflow, hourly) builds the newest tag, checks the id, version and changelog section, publishes the archive and adds it to `index.json`. Do not run the workflow yourself: wait for it, or if Quentin wants it now, propose an agent on `squadron-extensions` with `start_agent`. Then check the version in `index.json`; a rejected tag is in `rejected.json` with its reason, to hand to that same kind of agent if the cause is on the registry side.
+4. The tag starts the extension repo's own Release workflow (`.github/workflows/release.yml`, copied from `examples/release-caller.yml` in `squadron-extensions`): it checks the id, version, `squadron` range and changelog section, builds, and publishes `<id>-<version>.tar.gz` and `catalog.json` as the repo's latest release a minute later, which Squadron reads. Check the run with `gh run list`; a failed run gives its reason: fix, then move the tag or push the next version. A tag already pushed can be released again from the Actions tab with `tag`.
+   A repo without that workflow, or an extension in a subfolder (`<id>/v*` tags), goes through the hourly Registry workflow of `squadron-extensions`, which adds it to `index.json` or puts the tag in `rejected.json` with its reason. Never run that workflow yourself: wait, or propose an agent on `squadron-extensions` with `start_agent`.
 5. New extension only: `registry.json` in `squadron-extensions` needs `"<id>": { "repository": "https://github.com/…" }`, with `"path"` if `extension.json` is not at the root. Propose an agent on `squadron-extensions` with `start_agent` to add it through its PR; never edit that repo yourself. No entry per version. `index.json` is written by CI only.
