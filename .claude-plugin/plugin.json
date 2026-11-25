@@ -1,7 +1,7 @@
 {
   "name": "squadron-devkit",
   "description": "Rules, design and skills shared by the Squadron repos and its extensions",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "author": {
     "name": "Quentin Briais"
   },
