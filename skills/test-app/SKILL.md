@@ -9,7 +9,7 @@ After any UI change in the Squadron app, check it here before telling Quentin it
 
 ## Launch
 
-From the worktree that holds the change, in a background task:
+From the worktree that holds the change, with the Bash tool's `run_in_background: true`. Never `&`, `nohup` or `( … &)`: without a background task, TaskStop has nothing to stop.
 
 ```bash
 timeout 3600 pnpm app --headless > /tmp/squadron-<instance>.log 2>&1
@@ -52,7 +52,13 @@ Writes a PNG of the visible part of each open window (`main.png`, `board.png`…
 
 ## Stop
 
-TaskStop the background task, then check that the same `grep` now fails: a leftover process holds the instance's lock and blocks the next launch.
+TaskStop the background task, then check that the same `grep` now fails: a leftover process holds the instance's lock and blocks the next launch. With no task, or the process still alive, kill only this instance's:
+
+```bash
+for p in $(pgrep -f 'target/debug/[s]quadron'); do grep -qsz 'SQUADRON_INSTANCE=<instance>' /proc/$p/environ && kill $p; done
+```
+
+Never a bare `pkill -f target/debug/squadron`: it kills every worktree's dev app.
 
 ## Pitfalls
 
