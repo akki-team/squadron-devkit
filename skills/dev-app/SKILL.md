@@ -18,7 +18,7 @@ description: Launch Squadron's dev app (`pnpm app`) from a checkout or worktree,
 
 ## Launch
 
-From the checkout or worktree that holds the change, in a background task, its output in a log file:
+From the checkout or worktree that holds the change, with the Bash tool's `run_in_background: true`, its output in a log file. Never `&`, `nohup` or `( … &)`: without a background task, TaskStop has nothing to stop.
 
 ```bash
 timeout 3600 pnpm app > /tmp/squadron-<name>.log 2>&1
@@ -40,7 +40,13 @@ timeout 900 sh -c "until grep -qsxz 'SQUADRON_INSTANCE=<name>' \$(pgrep -f 'targ
 
 As soon as the process appears, tell Quentin it is up, with the instance name so he picks the right window: "Squadron dev · <name>".
 
-Stop the background task with TaskStop before handing back, unless Quentin is still using it.
+Stop the background task with TaskStop before handing back, unless Quentin is still using it. With no task, or the process still alive, kill only this instance's:
+
+```bash
+for p in $(pgrep -f 'target/debug/[s]quadron'); do grep -qsz 'SQUADRON_INSTANCE=<name>' /proc/$p/environ && kill $p; done
+```
+
+Never a bare `pkill -f target/debug/squadron`: it kills every worktree's dev app.
 
 ## Browser bench
 
