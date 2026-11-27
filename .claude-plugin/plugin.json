@@ -1,9 +1,9 @@
 {
   "name": "squadron-devkit",
   "description": "Rules, design and skills shared by the Squadron repos and its extensions",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "author": {
     "name": "Quentin Briais"
   },
-  "repository": "https://github.com/Jgrasp/squadron-devkit"
+  "repository": "https://github.com/akki-team/squadron-devkit"
 }
