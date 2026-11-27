@@ -11,9 +11,4 @@ Claude Code plugin shared by the Squadron repos and its extensions.
 
 ## Installation
 
-```bash
-claude plugin marketplace add Jgrasp/claude-marketplace
-claude plugin install squadron-devkit@jgrasp-marketplace
-```
-
-Then enable it per project from Squadron.
+Enable it per project from Squadron.

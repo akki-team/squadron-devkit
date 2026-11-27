@@ -7,7 +7,7 @@ description: Launch Squadron's dev app (`pnpm app`) from a checkout or worktree,
 
 ## Instances
 
-`pnpm app` runs `scripts/app.mjs` (Jgrasp/squadron#46): each checkout or worktree gets its own dev app.
+`pnpm app` runs `scripts/app.mjs` (akki-team/squadron#46): each checkout or worktree gets its own dev app.
 
 - Name: the worktree under `.claude/worktrees/<name>`, otherwise the checkout folder, lowercased and dashed.
 - Identifier `dev.squadron.desktop.dev.<name>`: its own config, WebView data and single-instance lock. Its data lives in `~/.config/dev.squadron.desktop.dev.<name>`, seeded on first run from the installed Squadron (projects, settings, groups, layout), so a worktree's instance starts from the release's projects and settings.

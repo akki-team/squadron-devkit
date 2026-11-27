@@ -5,7 +5,7 @@ description: Test your own change in the Squadron app in a headless dev app you 
 
 # Test a Squadron change yourself
 
-After any UI change in the Squadron app, check it here before telling Quentin it works. Ask him only for what a headless app cannot show: real mouse or keyboard feel, HiDPI, Wayland. Debug builds on Linux only (Jgrasp/squadron#49).
+After any UI change in the Squadron app, check it here before telling Quentin it works. Ask him only for what a headless app cannot show: real mouse or keyboard feel, HiDPI, Wayland. Debug builds on Linux only (akki-team/squadron#49).
 
 ## Launch
 

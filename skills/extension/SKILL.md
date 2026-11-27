@@ -5,7 +5,7 @@ description: Create, change, test or publish a Squadron extension (extension.jso
 
 # Squadron extension
 
-The guide is authoritative: `docs/guide.md` in the `squadron-extensions` repo (local clone `../squadron-extensions/docs/guide.md`, otherwise https://github.com/Jgrasp/squadron-extensions/blob/main/docs/guide.md). Read it before writing manifest or Rust: the API evolves, this skill does not copy it.
+The guide is authoritative: `docs/guide.md` in the `squadron-extensions` repo (local clone `../squadron-extensions/docs/guide.md`, otherwise https://github.com/akki-team/squadron-extensions/blob/main/docs/guide.md). Read it before writing manifest or Rust: the API evolves, this skill does not copy it.
 
 ## Repo shape
 
@@ -25,7 +25,7 @@ LICENSE
 .github/workflows/release.yml  copy of examples/release-caller.yml
 ```
 
-New extension: copy `examples/hello` from `squadron-extensions`, replace the `path` dependency with `squadron_extension_api = { git = "https://github.com/Jgrasp/squadron-extensions" }`.
+New extension: copy `examples/hello` from `squadron-extensions`, replace the `path` dependency with `squadron_extension_api = { git = "https://github.com/akki-team/squadron-extensions" }`.
 
 ## Rules
 
